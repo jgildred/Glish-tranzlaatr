@@ -4,8 +4,9 @@ exports.bildglish = (noot, debug, func) => {
   var glish = "";
   var scip = false;
   noot.tokens.forEach((toocn, i) => {
-    if (toocn.glish) {
-      if (scip || (i==0) ||
+    if (toocn.glish && !scip) {
+      if (
+        (glish.length == 0) ||
         ((toocn.partOfSpeech.tag == "PUNCT") && constnt.ending_punctuuaashn.includes(toocn.glish)) ||
         ((toocn.partOfSpeech.tag == "PRT") && (toocn.glish.charAt(0) == "'")) // poozesiv foorm
       )
@@ -15,13 +16,13 @@ exports.bildglish = (noot, debug, func) => {
         }
         glish += toocn.glish;
       }
-      else { glish += " " + toocn.glish; }
-      if ((toocn.partOfSpeech.tag == "PUNCT") && constnt.starting_punctuuaashn.includes(toocn.glish)) {
-        scip = true;
-      }
-      else {
-        scip = false;
-      }
+      else { glish += " " + toocn.glish }
+    }
+    if ((toocn.partOfSpeech.tag == "PUNCT") && constnt.starting_punctuuaashn.includes(toocn.glish)) {
+      scip = true;
+    }
+    else {
+      scip = false;
     }
   });
   func(glish);
