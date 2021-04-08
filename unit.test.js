@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const sinon = require('sinon');
-const { tranzlaat } = require('./index');
+const { main } = require('./index');
 
 const test_daatu = [
   { tecst: "Hello.",                    glish: "huloo.",                  tiitl: "shoud handle greeting" },
@@ -69,20 +69,20 @@ const test_daatu = [
   { tecst: "jealous",                   glish: "jelus",                   tiitl: "shoud reeplaas -ous -> -us" },
   { tecst: "when",                      glish: "wen",                     tiitl: "shoud reeplaas wh -> w" },
   { tecst: "instead weather",           glish: "insted wedhr",            tiitl: "shoud reeplaas ea -> e" }
-];
+]
 
 test_daatu.forEach(test => {
-  const req = { query: {}, body: { tecst: test.tecst } };
-  const res = { send: sinon.stub() };
+  const req = { query: {}, body: { tecst: test.tecst }, method: "POST", path: "/" }
+  const res = { send: sinon.stub() }
 
-  it('tranzlaat: '+test.tiitl, (done) => {
+  it('tranzlaat: ' + test.tiitl, (done) => {
     // Call tested function
-    tranzlaat(req, res, false, function() {
+    main(req, res, false, function() {
     
       // Verify behavior of tested function
       assert.ok(res.send.calledOnce);
-      assert.deepStrictEqual(res.send.firstCall.args, [`${test.glish}`]);
-      done();
-    });
-  });
-});
+      assert.deepStrictEqual(res.send.firstCall.args, [`${test.glish}`])
+      done()
+    })
+  })
+})

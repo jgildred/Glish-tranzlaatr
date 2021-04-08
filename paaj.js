@@ -41,6 +41,9 @@ exports.rendr = (req, debug, func) => {
 			break
 		default:
 			if (debug) { console.log("unoon path: "+req.path) }
+			if (func) {
+				func(daatu)
+			}
 	}
 
 }

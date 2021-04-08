@@ -8,7 +8,7 @@ btn.addEventListener('click', (event) => {
 
     // configure a request
     const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/')
+    xhr.open('POST', window.location.pathname.replace("poortl", ""))
 
     // set headers
     xhr.setRequestHeader('Content-Type', 'application/json')
@@ -21,7 +21,6 @@ btn.addEventListener('click', (event) => {
 
     // listen for `load` event
     xhr.onload = () => {
-        console.log(xhr)
         document.querySelector('#glish').value = xhr.responseText
     } 
 });

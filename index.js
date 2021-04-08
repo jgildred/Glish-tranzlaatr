@@ -18,6 +18,7 @@ if (debug) console.log('*** prosesing ricwest ***')
   var inpout = req.query.tecst || req.body.tecst || ""
   if (inpout == "") {
     res.status(200).send("nuthing tuu tranzlaat.")
+    if (func) { func() }
   }
   else {
     moorfolojee.loodanootaashn(inpout, debug, function(noot) { //lood sintacs frum nlp
