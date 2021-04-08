@@ -124,12 +124,15 @@ exports.adfooneem = (noot, debug, func) => {
         toocn.fooneem = toocn.fooneem.replace(/(?:R|ER|ER0|ER1|ER2) K$/, "R K"); // coorecting -urc in cmudict
         toocn.fooneem = toocn.fooneem.replace(/Z (?:IY|IY0|IY1|IY2) (?:AH|AH0|AH1|AH2)$/, "ZH AH"); // coorecting -zeeu in cmudict, liik nozeeu
         // port uv speech spusific caas
-        if ((toocn.partOfSpeech.tag == "VERB") && (toocn.lemma.toLowerCase() == "use")) {
-          toocn.fooneem = "Y UW Z";
-        }
-        if (toocn.partOfSpeech.tag == "ADJ") {
-          toocn.fooneem = toocn.fooneem.replace(/K T$/, "K D");
-          toocn.fooneem = toocn.fooneem.replace(/K S T$/, "K S D");
+        switch (toocn.partOfSpeech.tag) {
+          case "VERB":
+            if (toocn.lemma.toLowerCase() == "use") {
+              toocn.fooneem = "Y UW Z"; // coorecting cmudict usuum nawn proonunseeaashn
+            }
+            break;
+          case "ADJ":
+            toocn.fooneem = toocn.fooneem.replace(/K T$/, "K D"); // coorecting cmudict -t foor past tens
+            toocn.fooneem = toocn.fooneem.replace(/K S T$/, "K S D"); // coorecting cmudict -t foor past tens
         }
       });
       func(noot);

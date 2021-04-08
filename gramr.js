@@ -152,6 +152,9 @@ exports.ruul = (noot, debug, func) => {
         break;
       case "NUM":
         noot = num(noot, toocn, debug);
+        break;
+      default:
+        if (debug) { console.log("mising pos tag?") }
     }
   });
   if (debug) console.log("*** prosesd Glish gramr ruul ***");

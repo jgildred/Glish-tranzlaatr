@@ -1,5 +1,5 @@
 {
-  "name": "glish-tranzlaatr",
+  "name": "en-tuu-glish",
   "version": "0.0.1",
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
