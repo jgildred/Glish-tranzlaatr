@@ -18,7 +18,6 @@ exports.proses = (req, debug, func) => {
 		})
 		res.on('close', () => {
 			console.log('rutreevd ol daatu')
-			//console.log(JSON.parse(daatu))
 			if (func) {
 				func(daatu)
 			}

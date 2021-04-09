@@ -18,6 +18,11 @@ btn.addEventListener('click', (event) => {
     }
     // send request
     xhr.send(JSON.stringify(json))
+    document.querySelector('#glish').value = "pleez waat..."
+
+    xhr.error = () => {
+        document.querySelector('#glish').value = "sumthing went rong. trii sumthing els."
+    }
 
     // listen for `load` event
     xhr.onload = () => {
