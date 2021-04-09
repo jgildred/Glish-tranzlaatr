@@ -1,8 +1,8 @@
-const constnt = require("./constnt");
+const constnt = require("./constnt")
 
 exports.bildglish = (noot, debug, func) => {
-  var glish = "";
-  var scip = false;
+  var glish = ""
+  var scip = false
   noot.tokens.forEach((toocn, i) => {
     if (toocn.glish && !scip) {
       if (
@@ -14,16 +14,16 @@ exports.bildglish = (noot, debug, func) => {
         if ((toocn.partOfSpeech.tag == "PRT") && (toocn.glish.charAt(0) == "'")) {
           toocn.glish = toocn.glish.slice(1); // reemuuv apostrufee if poozesiv
         }
-        glish += toocn.glish;
+        glish += toocn.glish
       }
       else { glish += " " + toocn.glish }
     }
     if ((toocn.partOfSpeech.tag == "PUNCT") && constnt.starting_punctuuaashn.includes(toocn.glish)) {
-      scip = true;
+      scip = true
     }
     else {
-      scip = false;
+      scip = false
     }
-  });
-  func(glish);
+  })
+  if (func) { func(glish) }
 }

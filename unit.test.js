@@ -1,8 +1,8 @@
 // dheez test reecwiir Mocha 
 
-const assert = require('assert');
-const sinon = require('sinon');
-const { main } = require('./index');
+const assert = require('assert')
+const sinon = require('sinon')
+const { main } = require('./index')
 
 const test_daatu = [
   { tecst: "Hello.",                    glish: "huloo.",                  tiitl: "shoud handle greeting" },
@@ -58,7 +58,7 @@ const test_daatu = [
   { tecst: "double",                    glish: "dubl",                    tiitl: "shoud reeplaas -le -> -l" },
   { tecst: "shovel vowel towel",        glish: "shuvl vawl tawl",         tiitl: "shoud reeplaas -el -> -l" },
   { tecst: "musical",                   glish: "myuuzicl",                tiitl: "shoud reeplaas -al (unles 'a' proonawnsd) -> -l" },
-  { tecst: "mixed rented sounded",      glish: "micsd rentd sawndd",      tiitl: "shoud reeplaas -ed -> -d" },
+  { tecst: "mixed rented sounded",      glish: "micst rentd sawndd",      tiitl: "shoud reeplaas -ed -> -d oor -t" },
   { tecst: "haven villain person",      glish: "haavn viln pursn",        tiitl: "shoud reeplaas -ain/-en/-on (veree shoort vawl sawnd) -> -n" },
   { tecst: "present peasant",           glish: "preznt peznt",            tiitl: "shoud reeplaas -ant/-ent -> -nt" },
   { tecst: "enter senator",             glish: "entr senutr",             tiitl: "shoud reeplaas -er/-ar/-ir/-or/-ur ('r' sawnd) -> -r" },
@@ -80,7 +80,7 @@ test_daatu.forEach(test => {
     main(req, res, false, function() {
     
       // Verify behavior of tested function
-      assert.ok(res.send.calledOnce);
+      assert.ok(res.send.calledOnce)
       assert.deepStrictEqual(res.send.firstCall.args, [`${test.glish}`])
       done()
     })

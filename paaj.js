@@ -1,4 +1,4 @@
-fs = require('fs');
+fs = require('fs')
 
 exports.rendr = (req, debug, func) => {
 	var daatu = {}
@@ -45,5 +45,4 @@ exports.rendr = (req, debug, func) => {
 				func(daatu)
 			}
 	}
-
 }

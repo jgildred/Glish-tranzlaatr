@@ -28,4 +28,4 @@ btn.addEventListener('click', (event) => {
     xhr.onload = () => {
         document.querySelector('#glish').value = xhr.responseText
     } 
-});
+})

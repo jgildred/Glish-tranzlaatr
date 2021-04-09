@@ -2,7 +2,7 @@
  * Glish constnt valyuu
  */
 
-exports.articl = ["the","a","an"];
+exports.articl = ["the","a","an"]
 exports.prsnl_proonown = [
   {plural: false, person: 1, glish:"mee", en:"i|me"},
   {plural: false, person: 2, glish:"yuu", en:"you"},
@@ -10,7 +10,7 @@ exports.prsnl_proonown = [
   {plural: true, person: 1, glish:"wee", en:"we|us"},
   {plural: true, person: 2, glish:"yaa", en:"you"},
   {plural: true, person: 3, glish:"dhaa", en:"they|them"}
-];
+]
 exports.poozesiv_proonown = [
   {plural: false, person: 1, glish:"miin", en:"mine"},
   {plural: false, person: 2, glish:"yoorz", en:"yours"},
@@ -18,7 +18,7 @@ exports.poozesiv_proonown = [
   {plural: true, person: 1, glish:"awrz", en:"ours"},
   {plural: true, person: 2, glish:"yerz", en:"yours"},
   {plural: true, person: 3, glish:"dherz", en:"theirs"}
-];
+]
 exports.poozesiv_ajectiv = [
   {plural: false, person: 1, glish:"mii", en:"my"},
   {plural: false, person: 2, glish:"yoor", en:"your"},
@@ -26,7 +26,7 @@ exports.poozesiv_ajectiv = [
   {plural: true, person: 1, glish:"awr", en:"our"},
   {plural: true, person: 2, glish:"yer", en:"your"},
   {plural: true, person: 3, glish:"dher", en:"their"}
-];
+]
 exports.numbr = [
   {en: "zero", glish:"0"},
   {en: "one", glish:"1"},
@@ -57,7 +57,7 @@ exports.numbr = [
   {en: "eighty", glish:"80"},
   {en: "ninety", glish:"90"},
   {en: "hundred", glish:"100"}
-];
+]
 exports.cowntr = [
   {en: "first|1st", glish:"1th"},
   {en: "second|2nd", glish:"2th"},
@@ -87,14 +87,14 @@ exports.cowntr = [
   {en: "eightieth", glish:"80th"},
   {en: "ninetieth", glish:"90th"},
   {en: "hundredth", glish:"100th"}
-];
-exports.blend = ["bl","cl","fl","gl","pl","br","cr","dr","fr","gr","pr","tr","sc","sl","sp","st","sw","spr","str"];
-exports.punctuuaashn = ["!","@","#","$","%","^","&","*","(",")","-","=","_","+","[","]","{","}","/","|",";",":","?",",","<",".",">","'","`"];
-exports.ending_punctuuaashn = ["!","@","%","*",")","-","=","_","+","]","}","/","|",";",":","?",",",".",">","'","`"];
-exports.starting_punctuuaashn = ["'","(","[","{","<"];
-exports.alfubet = ["a","b","c","d","e","f","g","h","i","j","l","m","n","o","p","r","s","t","u","v","w","y","z"];
-exports.vowl = ["a","e","e","o","u"];
-exports.consoonant = ["b","c","d","f","g","h","j","l","m","n","p","r","s","t","v","w","y","z"];
+]
+exports.blend = ["bl","cl","fl","gl","pl","br","cr","dr","fr","gr","pr","tr","sc","sl","sp","st","sw","spr","str"]
+exports.punctuuaashn = ["!","@","#","$","%","^","&","*","(",")","-","=","_","+","[","]","{","}","/","|",";",":","?",",","<",".",">","'","`"]
+exports.ending_punctuuaashn = ["!","@","%","*",")","-","=","_","+","]","}","/","|",";",":","?",",",".",">","'","`"]
+exports.starting_punctuuaashn = ["'","(","[","{","<"]
+exports.alfubet = ["a","b","c","d","e","f","g","h","i","j","l","m","n","o","p","r","s","t","u","v","w","y","z"]
+exports.vowl = ["a","e","e","o","u"]
+exports.consoonant = ["b","c","d","f","g","h","j","l","m","n","p","r","s","t","v","w","y","z"]
 exports.fooneem = [
   {cmudict: "AA|AA0|AA1|AA2", glish: "o"},
   {cmudict: "AE|AE0|AE1|AE2", glish: "a"},

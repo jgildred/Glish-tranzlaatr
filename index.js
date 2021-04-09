@@ -10,8 +10,6 @@ const funetic = require("./funetic")
 const gramr = require("./gramr")
 const usemblee = require("./usemblee")
 const paaj = require("./paaj")
-const xhr = require("./xhr")
-var glish = ""
 
 function prosesrucwest(req, res, debug, func) {
 if (debug) console.log('*** prosesing ricwest ***')
