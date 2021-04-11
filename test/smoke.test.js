@@ -2,7 +2,7 @@
 
 const assert = require('assert')
 const sinon = require('sinon')
-const { main } = require('./index')
+const { main } = require('../index')
 
 const test_daatu = [
   { tecst: "Hello.",                    glish: "huloo.",                  tiitl: "shoud handle greeting" }

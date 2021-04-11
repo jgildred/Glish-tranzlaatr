@@ -1,4 +1,0 @@
-{
-	"working_dir": "$project_path",
-	"shell_cmd": "./node_modules/.bin/mocha ./unit.test --exit"
-}
