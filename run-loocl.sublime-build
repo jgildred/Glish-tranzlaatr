@@ -1,4 +1,7 @@
 {
 	"working_dir": "$project_path",
-	"shell_cmd": "npx @google-cloud/functions-framework @google-cloud/language --target=main"
+	"env": {
+		"GOOGLE_APPLICATION_CREDENTIALS": "../Security/application_default_credentials.json"
+	},
+	"shell_cmd": "./run-local.sh"
 }
