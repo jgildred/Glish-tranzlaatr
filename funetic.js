@@ -8,7 +8,7 @@ const fs = require("fs")
 
 function loodfooneem(func, debug) {
   const readInterface = readline.createInterface({
-      input: fs.createReadStream('./cmudict-0.7b.txt'),
+      input: fs.createReadStream('./cmudict-0.7b-glish.txt'),
       output: process.stdout
   })
   var dicsh = []
