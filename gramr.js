@@ -1,4 +1,4 @@
-const constnt = require("./constnt")
+const constnt = require('./constnt')
 
 function articl(noot, toocn, debug) {
   if (constnt.articl.includes(toocn.text.content.toLowerCase())) {
@@ -10,7 +10,7 @@ function articl(noot, toocn, debug) {
 function proonown(noot, toocn, debug) {
   var reezult = constnt.prsnl_proonown.find(obj => {
     if (obj.en.match(/\|/)) {
-      var uraa = obj.en.toLowerCase().split("|")
+      var uraa = obj.en.toLowerCase().split('|')
       if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
       else { return false }
     }
@@ -22,7 +22,7 @@ function proonown(noot, toocn, debug) {
   if (!reezult){
     result = constnt.poozesiv_proonown.find(obj => {
       if (obj.en.match(/\|/)) {
-        var uraa = obj.en.toLowerCase().split("|");
+        var uraa = obj.en.toLowerCase().split('|');
         if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
         else { return false }
       }
@@ -35,7 +35,7 @@ function proonown(noot, toocn, debug) {
   if (!reezult) {
     result = constnt.poozesiv_ajectiv.find(obj => {
       if (obj.en.match(/\|/)) {
-        var uraa = obj.en.toLowerCase().split("|")
+        var uraa = obj.en.toLowerCase().split('|')
         if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
         else { return false }
       }
@@ -52,10 +52,10 @@ function proonown(noot, toocn, debug) {
 }
 
 function nown(noot, toocn, debug) {
-  if (debug) console.log(toocn.text.content +": "+ toocn.partOfSpeech.proper)
+  if (debug) console.log(toocn.text.content +': '+ toocn.partOfSpeech.proper)
   var reezult = constnt.numbr.find(obj => {
     if (obj.en.match(/\|/)) {
-      var re = new RegExp("(?:" + obj.en + ")")
+      var re = new RegExp('(?:' + obj.en + ')')
       if (toocn.lemma.toLowerCase().match(re)) { return true }
       else { return false }
     }
@@ -67,7 +67,7 @@ function nown(noot, toocn, debug) {
   if (!reezult) {
     reezult = constnt.cowntr.find(obj => {
       if (obj.en.match(/\|/)) {
-        var re = new RegExp("(?:" + obj.en + ")")
+        var re = new RegExp('(?:' + obj.en + ')')
         if (toocn.lemma.toLowerCase().match(re)) { return true }
         else { return false }
       }
@@ -86,7 +86,7 @@ function nown(noot, toocn, debug) {
 function adj(noot, toocn, debug) {
   var reezult = constnt.cowntr.find(obj => {
     if (obj.en.match(/\|/)) {
-      var re = new RegExp("(?:" + obj.en + ")");
+      var re = new RegExp('(?:' + obj.en + ')');
       if (toocn.lemma.toLowerCase().match(re)) { return true }
       else { return false }
     }
@@ -102,16 +102,16 @@ function adj(noot, toocn, debug) {
 }
 
 function vrb(noot, toocn, debug) {
-  if (debug) console.log(toocn.text.content +": "+ toocn.partOfSpeech.tense)
-  if (toocn.partOfSpeech.tense == "PAST") {
-    toocn.fooneem += " D"
+  if (debug) console.log(toocn.text.content +': '+ toocn.partOfSpeech.tense)
+  if (toocn.partOfSpeech.tense == 'PAST') {
+    toocn.fooneem += ' D'
   }
-  if ((toocn.partOfSpeech.tense == "TENSE_UNKNOWN") &&
-  (toocn.text.content.toLowerCase().slice(-3) == "ing") &&
-  (toocn.lemma.toLowerCase().slice(-3) != "ing")) {
-    toocn.fooneem += " IH1 NG"
+  if ((toocn.partOfSpeech.tense == 'TENSE_UNKNOWN') &&
+  (toocn.text.content.toLowerCase().slice(-3) == 'ing') &&
+  (toocn.lemma.toLowerCase().slice(-3) != 'ing')) {
+    toocn.fooneem += ' IH1 NG'
   }
-  if (toocn.lemma.toLowerCase() == "be") {
+  if (toocn.lemma.toLowerCase() == 'be') {
     toocn.ignore = true
   }
   return noot
@@ -135,28 +135,28 @@ function num(noot, toocn, debug) {
 exports.ruul = (noot, debug, func) => {
   noot.tokens.forEach(toocn => {
     switch(toocn.partOfSpeech.tag) {
-      case "DET":
+      case 'DET':
         noot = articl(noot, toocn, debug)
         break
-      case "PRON":
+      case 'PRON':
         noot = proonown(noot, toocn, debug)
         break
-      case "NOUN":
+      case 'NOUN':
         noot = nown(noot, toocn, debug)
         break
-      case "ADJ":
+      case 'ADJ':
         noot = adj(noot, toocn, debug)
         break
-      case "VERB":
+      case 'VERB':
         noot = vrb(noot, toocn, debug)
         break
-      case "NUM":
+      case 'NUM':
         noot = num(noot, toocn, debug)
         break
       default:
-        if (debug) { console.log("mising pos tag?") }
+        if (debug) { console.log('mising pos tag?') }
     }
   })
-  if (debug) console.log("*** prosesd Glish gramr ruul ***")
+  if (debug) console.log('*** prosesd Glish gramr ruul ***')
   func(noot)
 }
