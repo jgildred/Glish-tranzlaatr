@@ -1,7 +1,7 @@
 
 const btn = document.querySelector('#submit')
 
-document.querySelector('#en').value = "Glish is a modern language based on English, but without the unnecessary complexity of English."
+//document.querySelector('#en').value = "Glish is a modern language based on English, but without the unnecessary complexity of English."
 
 btn.addEventListener('click', (event) => {
 

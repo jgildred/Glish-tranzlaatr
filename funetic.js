@@ -105,10 +105,13 @@ exports.adfooneem = (noot, debug, func) => {
         toocn.fooneem = toocn.fooneem.replace(/SH (?:AH|AH0|AH1|AH2) S$/, 'SH S') // coorecting -shus in cmudict
         toocn.fooneem = toocn.fooneem.replace(/SH (?:AH|AH0|AH1|AH2) N$/, 'SH N') // coorecting -shun in cmudict
         toocn.fooneem = toocn.fooneem.replace(/ZH (?:AH|AH0|AH1|AH2) N$/, 'ZH N') // coorecting -zhun in cmudict
+        toocn.fooneem = toocn.fooneem.replace(/D (?:AH|AH0|AH1|AH2) M$/, 'D M') // coorecting -zum in cmudict
+        toocn.fooneem = toocn.fooneem.replace(/T (?:AH|AH0|AH1|AH2) M$/, 'T M') // coorecting -zum in cmudict
         toocn.fooneem = toocn.fooneem.replace(/Z (?:AH|AH0|AH1|AH2) M$/, 'Z M') // coorecting -zum in cmudict
         toocn.fooneem = toocn.fooneem.replace(/V (?:AH|AH0|AH1|AH2) N$/, 'V N') // coorecting -vun in cmudict
         toocn.fooneem = toocn.fooneem.replace(/L (?:AH|AH0|AH1|AH2) N$/, 'L N') // coorecting -lun in cmudict
         toocn.fooneem = toocn.fooneem.replace(/S (?:AH|AH0|AH1|AH2) N$/, 'S N') // coorecting -sun in cmudict
+        toocn.fooneem = toocn.fooneem.replace(/T (?:AH|AH0|AH1|AH2) N$/, 'T N') // coorecting -sun in cmudict
         //toocn.fooneem = toocn.fooneem.replace(/(?:AH|AH0|AH1|AH2) T$/, 'T') // coorecting -ut in cmudict
         toocn.fooneem = toocn.fooneem.replace(/(?:AH|AH0|AH1|AH2) L$/, 'L') // coorecting -ul in cmudict
         toocn.fooneem = toocn.fooneem.replace(/Z (?:IH|IH0|IH1|IH2) N$/, 'Z N') // coorecting -zin in cmudict
@@ -131,8 +134,7 @@ exports.adfooneem = (noot, debug, func) => {
             }
             break
           case 'ADJ':
-            //toocn.fooneem = toocn.fooneem.replace(/K T$/, 'K D'); // coorecting cmudict -t foor past tens
-            //toocn.fooneem = toocn.fooneem.replace(/K S T$/, 'K S D'); // coorecting cmudict -t foor past tens (eg. mixed -> micst)
+            //toocn.fooneem = toocn.fooneem.replace(/K S T$/, 'K S D'); // coorecting cmudict -t foor past tens (eg. micsd, not micst)
         }
       });
       func(noot)

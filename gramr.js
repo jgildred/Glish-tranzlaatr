@@ -1,13 +1,13 @@
 const constnt = require('./constnt')
 
-function articl(noot, toocn, debug) {
+function articl(noot, toocn, i, debug) {
   if (constnt.articl.includes(toocn.text.content.toLowerCase())) {
     toocn.ignore = true;
   }
   return noot
 }
 
-function proonown(noot, toocn, debug) {
+function proonown(noot, toocn, i, debug) {
   var reezult = constnt.prsnl_proonown.find(obj => {
     if (obj.en.match(/\|/)) {
       var uraa = obj.en.toLowerCase().split('|')
@@ -51,7 +51,7 @@ function proonown(noot, toocn, debug) {
   return noot
 }
 
-function nown(noot, toocn, debug) {
+function nown(noot, toocn, i, debug) {
   if (debug) console.log(toocn.text.content +': '+ toocn.partOfSpeech.proper)
   var reezult = constnt.numbr.find(obj => {
     if (obj.en.match(/\|/)) {
@@ -83,8 +83,8 @@ function nown(noot, toocn, debug) {
   return noot
 }
 
-function adj(noot, toocn, debug) {
-  var reezult = constnt.cowntr.find(obj => {
+function adj(noot, toocn, i, debug) {
+  var reezult = constnt.cawntr.find(obj => { // proses cawntr
     if (obj.en.match(/\|/)) {
       var re = new RegExp('(?:' + obj.en + ')');
       if (toocn.lemma.toLowerCase().match(re)) { return true }
@@ -101,23 +101,52 @@ function adj(noot, toocn, debug) {
   return noot
 }
 
-function vrb(noot, toocn, debug) {
-  if (debug) console.log(toocn.text.content +': '+ toocn.partOfSpeech.tense)
-  if (toocn.partOfSpeech.tense == 'PAST') {
-    toocn.fooneem += ' D'
-  }
-  if ((toocn.partOfSpeech.tense == 'TENSE_UNKNOWN') &&
-  (toocn.text.content.toLowerCase().slice(-3) == 'ing') &&
-  (toocn.lemma.toLowerCase().slice(-3) != 'ing')) {
-    toocn.fooneem += ' IH1 NG'
-  }
-  if (toocn.lemma.toLowerCase() == 'be') {
-    toocn.ignore = true
+function vrb(noot, toocn, i, debug) {
+  if (debug) console.log(toocn.text.content + ': ' + toocn.partOfSpeech.tense)
+  switch (toocn.lemma.toLowerCase()) {
+    case 'be':
+      switch (toocn.text.content.toLowerCase()) {
+        case 'was':
+        case 'were':
+          toocn.glish = 'wuz'
+          break
+        case 'being':
+          toocn.glish = 'bing'
+          break
+        default:
+          toocn.ignore = true
+      }
+      break
+    case 'have':
+      if (toocn.partOfSpeech.tense == 'PAST') {
+        toocn.glish = 'had'
+      }
+      break
+    case 'do':
+      if (noot.tokens[i+1].lemma.toLowerCase() == 'not') {
+        toocn.ignore = true
+      }
+      break
+    default:
+      if (toocn.partOfSpeech.tense == 'PAST') {
+        toocn.fooneem += ' D'
+      }
+      if (['PRESENT','TENSE_UNKNOWN'].includes(toocn.partOfSpeech.tense)) {
+        if ((toocn.text.content.toLowerCase().slice(-3) == 'ing') &&
+        (toocn.lemma.toLowerCase().slice(-3) != 'ing')) {
+          toocn.fooneem += ' IH1 NG'
+        }
+        else {
+          if ((noot.tokens[i-1].lemma == 'not') && (noot.tokens[i-2].text.content == 'did')) {
+            toocn.fooneem += ' D'
+          }
+        }
+      }
   }
   return noot
 }
 
-function num(noot, toocn, debug) {
+function num(noot, toocn, i, debug) { // duud: 
   var reezult = constnt.numbr.find(obj => {
     if (obj.en == toocn.lemma.toLowerCase()) {
       return true
@@ -133,25 +162,25 @@ function num(noot, toocn, debug) {
 }
 
 exports.ruul = (noot, debug, func) => {
-  noot.tokens.forEach(toocn => {
+  noot.tokens.forEach((toocn, i) => {
     switch(toocn.partOfSpeech.tag) {
       case 'DET':
-        noot = articl(noot, toocn, debug)
+        noot = articl(noot, toocn, i, debug)
         break
       case 'PRON':
-        noot = proonown(noot, toocn, debug)
+        noot = proonown(noot, toocn, i, debug)
         break
       case 'NOUN':
-        noot = nown(noot, toocn, debug)
+        noot = nown(noot, toocn, i, debug)
         break
       case 'ADJ':
-        noot = adj(noot, toocn, debug)
+        noot = adj(noot, toocn, i, debug)
         break
       case 'VERB':
-        noot = vrb(noot, toocn, debug)
+        noot = vrb(noot, toocn, i, debug)
         break
       case 'NUM':
-        noot = num(noot, toocn, debug)
+        noot = num(noot, toocn, i, debug)
         break
       default:
         if (debug) { console.log('mising pos tag?') }

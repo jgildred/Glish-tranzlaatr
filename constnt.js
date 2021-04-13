@@ -58,7 +58,7 @@ exports.numbr = [
   {en: 'ninety', glish:'90'},
   {en: 'hundred', glish:'100'}
 ]
-exports.cowntr = [
+exports.cawntr = [
   {en: 'first|1st', glish:'1th'},
   {en: 'second|2nd', glish:'2th'},
   {en: 'third|3rd', glish:'3th'},

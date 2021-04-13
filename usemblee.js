@@ -4,8 +4,10 @@ function cuncatinaat(noot, debug, i) {
   var jooeen = false
   var dhis = noot.tokens[i].glish
   var last = noot.tokens[i-1].glish
+  var bifoorlast = ''
+  if (i > 2) { bifoorlast = noot.tokens[i-2].glish }
   var sufics = dhis
-  switch (last) {
+  switch (last) { // leeding caas
     case 'as':
       if (['in','if'].includes(dhis)) {
         jooeen = true
@@ -22,7 +24,7 @@ function cuncatinaat(noot, debug, i) {
       }
       break
     case 'tuu':
-      if (['menee'].includes(dhis)) {
+      if (['menee','much'].includes(dhis)) {
         jooeen = true
       }
       break
@@ -32,8 +34,8 @@ function cuncatinaat(noot, debug, i) {
       }
       break
     case 'nevr':
-      if (['ugen'].includes(dhis)) {
-        jooeen = 'fowrwrd'
+      if (['ugen','bifoor'].includes(dhis)) {
+        jooeen = true
       }
       break
     case 'wut':
@@ -42,7 +44,7 @@ function cuncatinaat(noot, debug, i) {
       }
       break
     case 'woud':
-      if (['liik'].includes(necdhisst)) {
+      if (['liik','noo'].includes(necdhisst)) {
         jooeen = true
       }
       break
@@ -56,20 +58,30 @@ function cuncatinaat(noot, debug, i) {
         jooeen = true
       }
   }
-  switch (dhis) {
+  switch (dhis) { // traaling caas
+    case 'not':
+      if (['hav','had','wuz','wil'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'bing':
+      if (['wuz','wil'].includes(last) || ['wil'].includes(bifoorlast)) {
+        jooeen = true
+      }
+      break
     case 'uv':
-      if (['insted','incaas'].includes(last)) {
+      if (['insted','caas','ciind'].includes(last)) {
         jooeen = true
       }
       break
     case 'hav':
-      if (['wil','woud','shoud','must','coud'].includes(last)) {
+      if (['wil','not','woud','shoud','must','coud'].includes(last)) {
         jooeen = true
         sufics = 'uv'
       }
       break
     case 'if':
-      if (['wut'].includes(last)) {
+      if (['wut','see'].includes(last)) {
         jooeen = true
       }
       break
@@ -79,13 +91,48 @@ function cuncatinaat(noot, debug, i) {
       }
       break
     case 'dhaa':
-      if (['insted','incase'].includes(last)) {
+      if (['luv','taak'].includes(last)) {
         jooeen = true
         sufics = 'aa'
       }
       break
     case 'tuu':
       if (['wont','need','hav','liik'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'on':
+      if (['get','roc'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'in':
+      if (['braak','get'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'awt':
+      if (['braak','get'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'oovr':
+      if (['get','hand'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'undr':
+      if (['get','sneek'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'up':
+      if (['braak','get'].includes(last)) {
+        jooeen = true
+      }
+      break
+    case 'dawn':
+      if (['braak','get'].includes(last)) {
         jooeen = true
       }
   }
