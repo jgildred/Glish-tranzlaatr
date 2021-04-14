@@ -117,6 +117,8 @@ function adv(noot, toocn, i, debug) {
       break
     case 'thrice':
       toocn.glish = '3x'
+    case 'n\'t':
+      toocn.glish = 'not'
   }
   return noot
 }
@@ -149,12 +151,17 @@ function vrb(noot, toocn, i, debug) {
       }
       break
     case 'do':
-      if (noot.tokens[i+1].lemma.toLowerCase() == 'not') {
+      if (['not','n\'t'].includes(noot.tokens[i+1].lemma.toLowerCase())) {
         toocn.ignore = true
       }
       else {
         if (toocn.partOfSpeech.tense == 'PAST') {
-          toocn.fooneem += ' D'
+          if ((i < noot.tokens.length - 1) && (noot.tokens[i+1].partOfSpeech.tag == 'VERB')) {
+            toocn.ignore = true
+          }
+          else {
+            toocn.fooneem += ' D'
+          }
         }
       }
       break
@@ -168,7 +175,8 @@ function vrb(noot, toocn, i, debug) {
           toocn.fooneem += ' IH1 NG'
         }
         else {
-          if ((noot.tokens[i-1].lemma == 'not') && (noot.tokens[i-2].text.content == 'did')) {
+          if (((i > 0) && (noot.tokens[i-1].text.content == 'did')) ||
+            ((i > 1) && ['not','n\'t'].includes(noot.tokens[i-1].lemma.toLowerCase()) && (noot.tokens[i-2].text.content == 'did'))) {
             toocn.fooneem += ' D'
           }
         }
