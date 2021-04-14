@@ -1,8 +1,9 @@
 const constnt = require('./constnt')
+const { w2n } = require('words-to-numbers')
 
-function cuncatinaat(noot, debug, i) {
+function cuncatinaat(noot, toocn, i, debug) {
   var jooeen = false
-  var dhis = noot.tokens[i].glish
+  var dhis = toocn.glish
   var last = noot.tokens[i-1].glish
   var bifoorlast = ''
   if (i > 2) { bifoorlast = noot.tokens[i-2].glish }
@@ -144,25 +145,59 @@ function cuncatinaat(noot, debug, i) {
 
 exports.bildglish = (noot, debug, func) => {
   var glish = ''
+  var numbr = false, lastnumbr = false
+  var start = null, end = null
   noot.tokens.forEach((toocn, i) => {
-    if (toocn.glish) {
-      if ( // caas wen noo spaas yuuzd
-        (glish.length == 0) ||
-        ((i > 0) & (noot.tokens[i-1].partOfSpeech.tag == 'PUNCT') && constnt.starting_punctuuaashn.includes(noot.tokens[i-1].glish)) || // aftr starting punct
-        ((i > 1) && (!noot.tokens[i-1].glish) && (noot.tokens[i-2].partOfSpeech.tag == 'PUNCT') && constnt.starting_punctuuaashn.includes(noot.tokens[i-2].glish)) || // aftr starting punct and scipt toocn
-        ((toocn.partOfSpeech.tag == 'PUNCT') && constnt.ending_punctuuaashn.includes(toocn.glish)) || // ending punct
-        ((toocn.partOfSpeech.tag == 'PRT') && (toocn.glish.charAt(0) == '\'')) // poozesiv foorm
-      ) 
+
+    // get stort and end of numbr set
+    var necst = noot.tokens[i+1]
+    var aftrnecst = noot.tokens[i+2]
+    if (toocn.partOfSpeech.tag == 'NUM') {
+      numbr = true
+      if ((i == noot.tokens.length-1) || // last toocn or
+      ((necst.partOfSpeech.tag != 'NUM') && // necst 1 not numbr and
+      (!(((necst.glish == '-') || (necst.glish == 'and')) && (aftrnecst.partOfSpeech.tag == 'NUM')))) // not '-' or 'and' foloowd bii numbr
+      )
       {
-        if ((toocn.partOfSpeech.tag == 'PRT') && (toocn.glish.charAt(0) == '\'')) { // reemuuv apostrufee if poozesiv
+        end = i
+        var wrd = noot.tokens.slice(start, end+1).map((iitm)=>{
+          return iitm.text.content
+        }).join(' ')
+
+        console.log('number is: '+wrd+' -- from '+start+' to '+end)
+      }
+      if (!lastnumbr) {
+        start = i
+        lastnumbr = true
+      }
+    }
+    else {
+      if (!(((toocn.glish == '-') || (toocn.glish == 'and')) && (necst.partOfSpeech.tag == 'NUM'))) { // not '-' or 'and' foloowd bii numbr
+        lastnumber = numbr = false 
+        start = end = null
+      }
+    }
+
+    if (toocn.glish) {
+      if ( // caas wen noo spaas bitween curnt and preeveeus token
+        (glish.length == 0) ||
+        (toocn.cuncat) ||
+        ((i > 0) & (noot.tokens[i-1].partOfSpeech.tag == 'PUNCT') && constnt.storting_punctuuaashn.includes(noot.tokens[i-1].glish)) || // aftr starting punct
+        ((i > 1) && (!noot.tokens[i-1].glish) && (noot.tokens[i-2].partOfSpeech.tag == 'PUNCT') && constnt.storting_punctuuaashn.includes(noot.tokens[i-2].glish)) || // aftr starting punct and scipt toocn
+        ((toocn.partOfSpeech.tag == 'PUNCT') && constnt.ending_punctuuaashn.includes(toocn.glish)) || // ending punct
+        ((toocn.partOfSpeech.tag == 'PRT') && (toocn.glish.charAt(0) == '\'')) // puzesiv foorm
+      )
+      {
+        if ((toocn.partOfSpeech.tag == 'PRT') && (toocn.glish.charAt(0) == '\'')) { // reemuuv apostrufee if puzesiv
           toocn.glish = toocn.glish.slice(1); 
         }
         glish += toocn.glish
       }
       else {
-        glish += cuncatinaat(noot, debug, i) // chec foor cuncatinaashn mach
+        glish += cuncatinaat(noot, toocn, i, debug) // chec foor cuncatinaashn mach
       }
     }
   })
+  if (debug) { console.log ('*** cumpleetd usemblee uv tranzlaashn ***') }
   if (func) { func(glish) }
 }

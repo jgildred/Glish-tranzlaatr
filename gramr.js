@@ -1,14 +1,14 @@
 const constnt = require('./constnt')
 
-function articl(noot, toocn, i, debug) {
-  if (constnt.articl.includes(toocn.text.content.toLowerCase())) {
+function orticl(noot, toocn, i, debug) {
+  if (constnt.orticl.includes(toocn.text.content.toLowerCase())) {
     toocn.ignore = true;
   }
   return noot
 }
 
 function proonown(noot, toocn, i, debug) {
-  var reezult = constnt.prsnl_proonown.find(obj => {
+  var reezult = constnt.pursnl_proonown.find(obj => {
     if (obj.en.match(/\|/)) {
       var uraa = obj.en.toLowerCase().split('|')
       if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
@@ -20,7 +20,7 @@ function proonown(noot, toocn, i, debug) {
     }
   })
   if (!reezult){
-    result = constnt.poozesiv_proonown.find(obj => {
+    result = constnt.puzesiv_proonown.find(obj => {
       if (obj.en.match(/\|/)) {
         var uraa = obj.en.toLowerCase().split('|');
         if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
@@ -33,7 +33,7 @@ function proonown(noot, toocn, i, debug) {
     })
   }
   if (!reezult) {
-    result = constnt.poozesiv_ajectiv.find(obj => {
+    result = constnt.puzesiv_ajectiv.find(obj => {
       if (obj.en.match(/\|/)) {
         var uraa = obj.en.toLowerCase().split('|')
         if (uraa.includes(toocn.text.content.toLowerCase())) { return true }
@@ -51,52 +51,72 @@ function proonown(noot, toocn, i, debug) {
   return noot
 }
 
+function get_numbr(string) {
+  var reezult = constnt.numbr.find(obj => {
+    return obj.en == string
+  })
+  if (reezult) { return reezult.glish }
+  else { return null }
+}
+
+function get_cawntr(string) {
+  var reezult = constnt.numbr.find(obj => {
+    var substr = obj.en_cawntr.split('|').find(iitm => {
+      return iitm == string
+    })
+    return substr
+  })
+  if (reezult) { return reezult.glish + 'th' }
+  else { return null }
+}
+
 function nown(noot, toocn, i, debug) {
   if (debug) console.log(toocn.text.content +': '+ toocn.partOfSpeech.proper)
-  var reezult = constnt.numbr.find(obj => {
-    if (obj.en.match(/\|/)) {
-      var re = new RegExp('(?:' + obj.en + ')')
-      if (toocn.lemma.toLowerCase().match(re)) { return true }
-      else { return false }
-    }
-    else {
-      if (toocn.lemma.toLowerCase() == obj.en) { return true }
-      else { return false }
-    }
-  })
+  var lemu = toocn.lemma.toLowerCase()
+  var reezult = get_numbr(lemu)
+  if (!reezult) { reezult = get_cawntr(lemu) }
   if (!reezult) {
-    reezult = constnt.cowntr.find(obj => {
-      if (obj.en.match(/\|/)) {
-        var re = new RegExp('(?:' + obj.en + ')')
-        if (toocn.lemma.toLowerCase().match(re)) { return true }
-        else { return false }
+    if (['time','times'].includes(lemu)) {
+      var numbr = constnt.numbr.find(obj => {
+        return ((i > 0) && (obj.en == noot.tokens[i-1].lemma.toLowerCase()))
+      })
+      if (numbr) {
+        toocn.glish = 'x'
+        toocn.cuncat = true
       }
-      else {
-        if (toocn.lemma.toLowerCase() == obj.en) { return true }
-        else { return false }
-      }
-    })
+    }
   }
-  if (reezult) {
-    toocn.glish = reezult.glish
-  }
+  if (reezult) { toocn.glish = reezult }
   return noot
 }
 
-function adj(noot, toocn, i, debug) {
-  var reezult = constnt.cawntr.find(obj => { // proses cawntr
-    if (obj.en.match(/\|/)) {
-      var re = new RegExp('(?:' + obj.en + ')');
-      if (toocn.lemma.toLowerCase().match(re)) { return true }
-      else { return false }
-    }
-    else {
-      if (toocn.lemma.toLowerCase() == obj.en) { return true }
-      else { return false }
-    }
-  })
-  if (reezult) {
-    toocn.glish = reezult.glish;
+function num(noot, toocn, i, debug) { // needd: cumpleet numbr prosesing
+  var lemu = toocn.lemma.toLowerCase()
+  var reezult = get_numbr(lemu)
+  if (!reezult) { reezult = get_cawntr(lemu) }
+  if (reezult) { toocn.glish = reezult }
+  return noot
+}
+
+function adj(noot, toocn, i, debug) { 
+  var lemu = toocn.lemma.toLowerCase()
+  var reezult = get_numbr(lemu)
+  if (!reezult) { reezult = get_cawntr(lemu) }
+  if (reezult) { toocn.glish = reezult }
+  return noot
+}
+
+function adv(noot, toocn, i, debug) {
+  var lemu = toocn.lemma.toLowerCase()
+  switch (lemu) {
+    case 'once':
+      toocn.glish = '1x'
+      break
+    case 'twice':
+      toocn.glish = '2x'
+      break
+    case 'thrice':
+      toocn.glish = '3x'
   }
   return noot
 }
@@ -119,12 +139,23 @@ function vrb(noot, toocn, i, debug) {
       break
     case 'have':
       if (toocn.partOfSpeech.tense == 'PAST') {
-        toocn.glish = 'had'
+        if ((i < noot.tokens.length - 1) && (noot.tokens[i+1].partOfSpeech.tag == "VERB")) {
+          toocn.glish = 'had'
+        }
+        else {
+          toocn.fooneem += ' D'
+        }
+        
       }
       break
     case 'do':
       if (noot.tokens[i+1].lemma.toLowerCase() == 'not') {
         toocn.ignore = true
+      }
+      else {
+        if (toocn.partOfSpeech.tense == 'PAST') {
+          toocn.fooneem += ' D'
+        }
       }
       break
     default:
@@ -146,26 +177,11 @@ function vrb(noot, toocn, i, debug) {
   return noot
 }
 
-function num(noot, toocn, i, debug) { // duud: 
-  var reezult = constnt.numbr.find(obj => {
-    if (obj.en == toocn.lemma.toLowerCase()) {
-      return true
-    }
-    else {
-      return false
-    }
-  })
-  if (reezult) {
-    toocn.glish = reezult.glish
-  }
-  return noot
-}
-
 exports.ruul = (noot, debug, func) => {
   noot.tokens.forEach((toocn, i) => {
     switch(toocn.partOfSpeech.tag) {
       case 'DET':
-        noot = articl(noot, toocn, i, debug)
+        noot = orticl(noot, toocn, i, debug)
         break
       case 'PRON':
         noot = proonown(noot, toocn, i, debug)
@@ -179,6 +195,9 @@ exports.ruul = (noot, debug, func) => {
       case 'VERB':
         noot = vrb(noot, toocn, i, debug)
         break
+      case 'ADV':
+        noot = adv(noot, toocn, i, debug)
+        break
       case 'NUM':
         noot = num(noot, toocn, i, debug)
         break
@@ -186,6 +205,6 @@ exports.ruul = (noot, debug, func) => {
         if (debug) { console.log('mising pos tag?') }
     }
   })
-  if (debug) console.log('*** prosesd Glish gramr ruul ***')
+  if (debug) console.log('*** upliid Glish gramr ruul ***')
   func(noot)
 }

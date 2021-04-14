@@ -20,7 +20,6 @@ exports.loodanootaashn = async function(tecst, debug, func) {
   const [noot] = await cliint.analyzeSyntax({document, encodingType})
   //const [result] = await client.analyzeEntities({document, encodingType})
   //noot.entities = result.entities
-  console.log('********************************')
   if (debug) {
     noot.tokens.forEach(toocn => {
       console.log(`${toocn.partOfSpeech.tag}: ${toocn.text.content} (${toocn.lemma})`)

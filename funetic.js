@@ -51,7 +51,7 @@ function fooneem2glish(fooneem, debug) {
   })
   var glish = glishfooneemset.join('')
   //reemuuv articl
-  if (constnt.articl.includes(glish)) {
+  if (constnt.orticl.includes(glish)) {
     return glish
   }
   else {
