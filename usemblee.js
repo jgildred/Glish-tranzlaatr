@@ -195,7 +195,7 @@ exports.bildglish = (noot, debug, func) => {
           return iitm.text.content
         }).join(' ').replaceAll(' - ','-')
         var puz = glish.length - mezhrsegmnt(noot, start, end, debug) // puzishn at bigining uv numbr set
-        glish = glish.slice(0,puz) + wordsToNumbers(wrd)
+        glish = glish.slice(0,puz) + wordsToNumbers(wrd, { impliedHundreds: true })
         console.log('number is: '+wrd+' -- from '+start+' to '+end)
       }
       if (!lastnumbr) {
