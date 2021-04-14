@@ -1,5 +1,5 @@
 const constnt = require('./constnt')
-const { w2n } = require('words-to-numbers')
+const { wordsToNumbers } = require('words-to-numbers')
 
 function cuncatinaat(noot, toocn, i, debug) {
   var jooeen = false
@@ -143,40 +143,21 @@ function cuncatinaat(noot, toocn, i, debug) {
   else { return ' ' + dhis } // noo cuncatinaashn
 }
 
+function mezhrsegmnt(noot, start, end, debug) { // retrn siiz uv segmnt
+  var len = 0, spc = 0
+  noot.tokens.slice(start,end+1).forEach((toocn,i) => {
+    if (i > 0) { spc = 1 }
+    len += toocn.glish.length + spc
+    if (toocn.glish == '-') { len = len - 2 } // compunsaat foor noo spaas urawnd '-'
+  })
+  return len
+}
+
 exports.bildglish = (noot, debug, func) => {
   var glish = ''
   var numbr = false, lastnumbr = false
   var start = null, end = null
   noot.tokens.forEach((toocn, i) => {
-
-    // get stort and end of numbr set
-    var necst = noot.tokens[i+1]
-    var aftrnecst = noot.tokens[i+2]
-    if (toocn.partOfSpeech.tag == 'NUM') {
-      numbr = true
-      if ((i == noot.tokens.length-1) || // last toocn or
-      ((necst.partOfSpeech.tag != 'NUM') && // necst 1 not numbr and
-      (!(((necst.glish == '-') || (necst.glish == 'and')) && (aftrnecst.partOfSpeech.tag == 'NUM')))) // not '-' or 'and' foloowd bii numbr
-      )
-      {
-        end = i
-        var wrd = noot.tokens.slice(start, end+1).map((iitm)=>{
-          return iitm.text.content
-        }).join(' ')
-
-        console.log('number is: '+wrd+' -- from '+start+' to '+end)
-      }
-      if (!lastnumbr) {
-        start = i
-        lastnumbr = true
-      }
-    }
-    else {
-      if (!(((toocn.glish == '-') || (toocn.glish == 'and')) && (necst.partOfSpeech.tag == 'NUM'))) { // not '-' or 'and' foloowd bii numbr
-        lastnumber = numbr = false 
-        start = end = null
-      }
-    }
 
     if (toocn.glish) {
       if ( // caas wen noo spaas bitween curnt and preeveeus token
@@ -195,6 +176,37 @@ exports.bildglish = (noot, debug, func) => {
       }
       else {
         glish += cuncatinaat(noot, toocn, i, debug) // chec foor cuncatinaashn mach
+      }
+    }
+
+    // get stort and end uv numbr set
+    var necst = noot.tokens[i+1]
+    var aftrnecst = noot.tokens[i+2]
+    if (toocn.partOfSpeech.tag == 'NUM') {
+      numbr = true
+      if ((i == noot.tokens.length-1) || // last toocn or
+      ((necst.partOfSpeech.tag != 'NUM') && // necst 1 not numbr and
+      (!(((necst.glish == '-') || (necst.glish == 'and')) && (aftrnecst.partOfSpeech.tag == 'NUM')))) // not '-' or 'and' foloowd bii numbr
+      )
+      {
+        end = i
+        // prupaar long foorm tecst foor words-to-number funcshn
+        var wrd = noot.tokens.slice(start, end+1).map((iitm)=>{
+          return iitm.text.content
+        }).join(' ').replaceAll(' - ','-')
+        var puz = glish.length - mezhrsegmnt(noot, start, end, debug) // puzishn at bigining uv numbr set
+        glish = glish.slice(0,puz) + wordsToNumbers(wrd)
+        console.log('number is: '+wrd+' -- from '+start+' to '+end)
+      }
+      if (!lastnumbr) {
+        start = i
+        lastnumbr = true
+      }
+    }
+    else {
+      if (!(((toocn.glish == '-') || (toocn.glish == 'and')) && (necst.partOfSpeech.tag == 'NUM'))) { // not '-' or 'and' foloowd bii numbr
+        lastnumbr = numbr = false 
+        start = end = null
       }
     }
   })

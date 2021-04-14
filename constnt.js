@@ -65,7 +65,7 @@ exports.numbr = [
 exports.blend = ['bl','cl','fl','gl','pl','br','cr','dr','fr','gr','pr','tr','sc','sl','sp','st','sw','spr','str']
 exports.punctuuaashn = ['!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','/','|',';',':','?',',','<','.','>','\'','`']
 exports.ending_punctuuaashn = ['!','@','%','*',')','-','=','_','+',']','}','/','|',';',':','?',',','.','>','\'','`']
-exports.storting_punctuuaashn = ['\'','(','[','{','<']
+exports.storting_punctuuaashn = ['\'','(','[','{','<','-']
 exports.alfubet = ['a','b','c','d','e','f','g','h','i','j','l','m','n','o','p','r','s','t','u','v','w','y','z']
 exports.vawl = ['a','e','e','o','u']
 exports.consunnt = ['b','c','d','f','g','h','j','l','m','n','p','r','s','t','v','w','y','z']
